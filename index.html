@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Title</title>
+</head>
+<body>
+<a href="#/a">a应用</a>
+<a href="#/b">b应用</a>
+<div id="div"></div>
+</body>
+<!-- <script src="https://cdn.bootcdn.net/ajax/libs/single-spa/5.9.3/umd/single-spa.min.js"></script> -->
+<script type="module">
+  // var elem = document.querySelector("#div")
+  // // var event = document.createEvent("Event")
+  // // // 定义事件名称
+  // // event.initEvent("myEvent")
+
+  // var event = new CustomEvent("myEvent",{"detail":"asdf",bubbles: true,cancelable: true})
+
+  // // 监听myEvent
+  // elem.addEventListener("myEvent",function(e){
+  //   console.log(e)
+  // },false)
+  //  // 使用目标对象去派发事件，可以是元素节点/事件对象
+  //  elem.dispatchEvent(event)
+
+
+  // let {registerApplication, start} = singleSpa
+  import {registerApplication, start} from './single-spa.js'
+
+  let app1 = {
+    bootstrap: [
+      async () => {
+        console.log("app1 start")
+      }
+    ],
+    mount: async () => {
+      console.log('app1 mount')
+    },
+    unmount: async () => {
+      console.log('app1 unmount')
+    }
+  }
+  let app2 = {
+    bootstrap: [
+      async () => {
+        console.log("app2 start")
+      }
+    ],
+    mount: async () => {
+      console.log('app2 mount')
+    },
+    unmount: async () => {
+      console.log('app2 unmount')
+    }
+  }
+  // registerApplication({
+  //   name: 'app1', //这个名字可以用于过滤防止加载重复的应用
+  //   app: async () => app1,
+  //   activeWhen: location => location.hash === "#/a",
+  //   customProps: {name: "zf-a"}
+  // })
+  // registerApplication({
+  //   name: 'app2', //这个名字可以用于过滤防止加载重复的应用
+  //   app: async () => app2,
+  //   activeWhen: location => location.hash === "#/b",
+  //   customProps: {name: "zf-b"}
+  // })
+  registerApplication(
+      'app1',
+      async () => {
+        return  await app1
+      },
+      location => location.hash === "#/a",
+      {
+        name: "a"
+      }
+    )
+  registerApplication(
+    'app2',
+    async ()=>{
+      return app2
+    },
+    location=>location.hash==="#/b",
+    {
+      name:"b"
+    }
+  )
+  start()
+ 
+  
+  // function toLoadPromise(app) {
+  //     return Promise.resolve().then(() => {
+  //       return app.loadApp().then(val => {
+  //         console.log('toLoadPromise', app)
+  //         return app
+  //       })
+  //     })
+  //   }
+
+</script>
+</html>
