@@ -12,8 +12,8 @@ import {
 import { reroute } from "../navigation/reroute.js"
 const apps = [] // 这里存放所有的应用
 export function getAppChanges () {
-  const appsToUnload = [], // 需要完全卸载的列表
-    appsToUnmount = [], // 需要移除的列表
+  const appsToUnload = [], // 需要被移除的
+    appsToUnmount = [], // 需要被卸载的
     appsToLoad = [], // 需要加载的列表
     appsToMount = []; // 需要挂载的列表
   apps.forEach((app) => {
